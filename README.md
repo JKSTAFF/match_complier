@@ -6,10 +6,10 @@ This repo using github actions to complile firmware for my GL.iNet Beryl(GL-MT13
 With that said it's fine to use it complile for other routers in [support list](https://openwrt.org/toh/start).  
 
 ## Main features  
-* Integrated with MediaTek's non-free WiFi modules and fullcone-NAT support to improve connection quality
+* Integrated with wlan offload optimization and fullcone-NAT support to improve connection quality
 * Multiple WAN function allows you to increase the net speed exponentially  
 * Build your own global transit between the router and private server. Xray is recommended due to its [ low CPU cost](https://github.com/v2ray/v2ray-core/issues/2636) and [UDP support](https://github.com/XTLS/Xray-core/discussions/252) as claimed  
-* Only the hosting download and smb server function are retained on the USB port and SD card slot  
+* Fully support LTE modules on USB port  
 * Using nginx to provide luci and other web page over https. Remote access also available  
 * HomeAssistant [intergration](https://www.home-assistant.io/integrations/luci/) compatible
 
