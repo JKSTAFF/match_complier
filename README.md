@@ -1,16 +1,9 @@
-# match_complier for Beryl
->Custom OpenWrt complier for GL-MT1300  
+# match_complier
+>Custom OpenWrt complier for multiple target  
 
 ## Why this variant
-This branch using github actions to complile firmware for my GL.iNet Beryl(GL-MT1300) , which is minimum-obtrusive to the latest stable version of OpenWrt but only optimize for console game accelerator use. It's a reasonable product positioning for a low-end(mt7621) router.  
+This branch using github actions to complile firmware for my routers, which is minimum-obtrusive to the stable version of official OpenWrt but only optimize for connection and home-lab usage.  
 With that said it's fine to use it complile for other routers in [support list](https://openwrt.org/toh/start).  
-
-## Main features with my config  
-* Integrated with wlan offload optimization and fullcone-NAT support to improve connection quality
-* Multiple WAN function allows you to increase the net speed exponentially  
-* Transparent proxy to your private server with fully configurable webui. Xray is recommended due to its [low CPU cost](https://github.com/v2ray/v2ray-core/issues/2636) and [UDP support](https://github.com/XTLS/Xray-core/discussions/252) as claimed  
-* Fully support LTE modules on USB port  
-* Using nginx to provide luci and other web page over https with ddns remote access
 
 ## How to use  
 1. Generate `.config` files with [stock repository](https://github.com/openwrt/openwrt/tree/openwrt-21.02) source code and overwrite it if you don't buy our default package set. You can also change the source code through environment variables in the workflow file  
