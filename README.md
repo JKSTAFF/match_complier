@@ -1,19 +1,18 @@
-# match_complier
+# match_complier for Beryl
 >Custom OpenWrt complier for GL-MT1300  
 
 ## Why this variant
-This repo using github actions to complile firmware for my GL.iNet Beryl(GL-MT1300) , which is minimum-obtrusive to the latest stable version of OpenWrt but only optimize for console game accelerator use. It's a reasonable product positioning for a low-end(mt7621) router.  
+This branch using github actions to complile firmware for my GL.iNet Beryl(GL-MT1300) , which is minimum-obtrusive to the latest stable version of OpenWrt but only optimize for console game accelerator use. It's a reasonable product positioning for a low-end(mt7621) router.  
 With that said it's fine to use it complile for other routers in [support list](https://openwrt.org/toh/start).  
 
-## Main features  
+## Main features with my config  
 * Integrated with wlan offload optimization and fullcone-NAT support to improve connection quality
 * Multiple WAN function allows you to increase the net speed exponentially  
-* Build your own global transit between the router and private server. Xray is recommended due to its [ low CPU cost](https://github.com/v2ray/v2ray-core/issues/2636) and [UDP support](https://github.com/XTLS/Xray-core/discussions/252) as claimed  
+* Transparent proxy to your private server with fully configurable webui. Xray is recommended due to its [low CPU cost](https://github.com/v2ray/v2ray-core/issues/2636) and [UDP support](https://github.com/XTLS/Xray-core/discussions/252) as claimed  
 * Fully support LTE modules on USB port  
-* Using nginx to provide luci and other web page over https. Remote access also available  
-* HomeAssistant [intergration](https://www.home-assistant.io/integrations/luci/) compatible
+* Using nginx to provide luci and other web page over https with ddns remote access
 
-## Usage  
+## How to use  
 1. Generate `.config` files with [stock repository](https://github.com/openwrt/openwrt/tree/openwrt-21.02) source code and overwrite it if you don't buy our default package set. You can also change the source code through environment variables in the workflow file  
 2. Add 3rd-part packages to [this branch](https://github.com/Vector-Digi/match_complier/tree/packages) whatever you want  
 3. Modify `prefix.sh` and `postfix.sh` to apply custom settings  
