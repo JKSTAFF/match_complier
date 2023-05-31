@@ -6,6 +6,16 @@ Focus on making the most of Xray (HTTP/HTTPS/Socks/TProxy inbounds, multiple pro
 
 ## Warnings
 
+* Since the last OpenWrt version with `firewall3` as default firewall implementation (which is OpenWrt 21.02.7) is now EoL, the `fw3` variant of this project is no longer maintained. 
+    * It is strongly recommended to use `fw4` variant. 
+    * The old version is still kept there and should work but no new features (added after Xray v1.8.1) or bugfixes will be added there.
+* Since version 2.0.0 this project is split into `fw3` and `fw4` variants and **this breaks compatibility**:
+    * Configuration files and init scripts are renamed. Manually refill configurations or run `mv /etc/config/xray /etc/config/xray_fw4` (for fw4, similar for fw3) for migration.
+    * installation method is changed. See `Installation` below for details.
+* About experimental REALITY support
+    * may change quite frequently so keep in mind about following warnings
+    * server role support **involves breaking changes if you use HTTPS server**: certificate settings are now bound to stream security, so previously uploaded certificate and key files will disappear in LuCI, but this won't prevent Xray from using them. Your previously uploaded file are still there, just select them again in LuCI. If Xray fails to start up and complains about missing certificate files, also try picking them again.
+    * legacy XTLS support has already been removed in version 1.8.0 and is also removed by this project since version 2.0.0.
 * There will be a series of **BREAKING CHANGES** in the following months due to some major refactor of DNS module. Please read changelog carefully to know about breaking changes and always backup your configuration files before updating.
 * If you see `WARNING: at least one of asset files (geoip.dat, geosite.dat) is not found under /usr/share/xray. Xray may not work properly` and don't know what to do:
     * try `opkg update && opkg install xray-geodata` (at least OpenWrt 21.02 releases)
@@ -19,6 +29,32 @@ Focus on making the most of Xray (HTTP/HTTPS/Socks/TProxy inbounds, multiple pro
 * For OpenWrt 19.07 releases, you need to prepare your own xray-core package (just download from [Releases · yichya/openwrt-xray](https://github.com/yichya/openwrt-xray/releases) and install that) because building Xray from source requires Go 1.17 which is currently only available in at least OpenWrt 21.02 releases.
 * This project may change its code structure, configuration files format, user interface or dependencies quite frequently since it is still in its very early stage. 
 
+## Installation (Fw4 only)
+
+Just use `opkg -i *` to install both ipks from Releases.
+
+## Installation (Manually building OpenWrt)
+
+Choose one below:
+
+* Add `src-git-full luci_app_xray https://github.com/yichya/luci-app-xray` to `feeds.conf.default` and run `./scripts/feeds update -a; ./scripts/feeds install -a` 
+* Clone this repository under `package`
+
+Then find `luci-app-xray` under `Extra Packages`.
+
+## Changelog 2023
+
+* 2023-01-01 feat: optional restart of dnsmasq on interface change
+* 2023-01-18 `[OpenWrt 22.03 or above only]` feat: option to ignore TP_SPEC_DEF_GW
+* 2023-01-23 `[OpenWrt 22.03 or above only]` feat: custom configurations in outbounds. Say if you want to try [XTLS/Xray-core#1540](https://github.com/XTLS/Xray-core/pull/1540) before its release, you can specify `{"streamSettings": {"tlsSettings": {"fingerprint": "xray_random"}}}` in "Custom Options" tab of the corresponding outbound. See the help text in LuCI ui for the rules of configuration override.
+* 2023-03-10 `[OpenWrt 22.03 or above only]` feat: experimental REALITY support
+* 2023-03-11 feat: h2 read_idle_timeout and health_check_timeout settings
+* 2023-04-03 feat: split this project into `fw3` and `fw4` variants
+* 2023-04-17 chore: provide prebuilt packages for `fw4` variant
+* 2023-04-29 fix: make `fw3` variant actually usable; add REALITY support for `fw3` variant
+* 2023-05-24 feat: `[OpenWrt 22.03 or above only]` support transparent proxy ports filter (fw4)
+* 2023-05-29 feat: `[OpenWrt 22.03 or above only]` add counter in fw4
+
 ## Changelog 2022
 
 * 2022-01-08 feat: bridge; add DomainStrategy for outbound; minor UI changes
@@ -26,6 +62,27 @@ Focus on making the most of Xray (HTTP/HTTPS/Socks/TProxy inbounds, multiple pro
 * 2022-02-01 feat: refactor transparent-proxy-ipset to use lua
 * 2022-02-02 feat: return certain domain names as NXDOMAIN
 * 2022-02-03 fix: failed to start Xray when blocked domain list is empty
+* 2022-02-15 feat: add a large `rlimit_data` option
+* 2022-02-19 fix: `rlimit_data` and `rlimit_nofile` does not work together
+* 2022-02-20 fix: return a discarded address instead of nxdomain to let dnsmasq cache these queries
+* 2022-03-25 feat: remove web and add metrics configurations (recommended to use with [metrics support](https://github.com/XTLS/Xray-core/pull/1000))
+* 2022-04-24 feat: metrics is now out of optional features; add basic ubus wrapper for xray apis
+* 2022-05-13 feat: shadowsocks-2022 protocols support
+* 2022-06-04 `[OpenWrt 22.03 or above only]` feat: nftables support (experimental)
+* 2022-06-05 feat: shadowsocks-2022 UDP over TCP support
+* 2022-06-14 feat: multiple geoip direct code
+* 2022-06-19 `[OpenWrt 22.03 or above only]` feat: skip proxy for specific uids / gids
+* 2022-08-07 fix: avoid duplicated items in generated nftables ruleset
+* 2022-08-13 fix: make sure forwarded IPs are always forwarded to Xray even for reserved addresses. Xray may not forward those requests so that manner may be changed later.
+* 2022-09-01 feat: specify outbound for manual transparent proxy
+* 2022-09-26 feat: show process running status
+* 2022-10-02 feat: detect xray binary path; allow changing default HTTPS server port
+* 2022-10-03 feat: switch to disable TCP / UDP transparent proxy
+* 2022-10-05 feat: dialer proxy
+* 2022-10-06 `[OpenWrt 22.03 or above only]` feat: use goto instead of jump in nftables rules
+* 2022-10-29 `[OpenWrt 22.03 or above only]` feat: rewrite gen_config in ucode
+* 2022-11-01 feat: support xtls-rprx-vision
+* 2022-12-13 fix: force restart dnsmasq on interface change
 
 ## Changelog 2021
 
@@ -75,3 +132,7 @@ Focus on making the most of Xray (HTTP/HTTPS/Socks/TProxy inbounds, multiple pro
 * [x] transparent proxy access control for LAN
 * [x] try to be compatible with [OpenWrt Packages: xray-core](https://github.com/openwrt/packages/tree/master/net/xray-core)
 * [ ] Better DNS module implementation like DoH (may involve breaking changes)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=yichya/luci-app-xray&type=Date)](https://star-history.com/#yichya/luci-app-xray&Date)
