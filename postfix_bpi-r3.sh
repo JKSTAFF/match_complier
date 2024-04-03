@@ -14,8 +14,7 @@
 if [ `grep -c  "CONFIG_LUCI_LANG_zh_Hans=y" ".config"` -ne '0' ]; then 
     sed -i 's/UTC/CST-8/g' package/base-files/files/bin/config_generate
     sed -i '/CST-8/a\set system.@system[-1].zonename='"'"'Asia/Shanghai'"'"'' package/base-files/files/bin/config_generate
-    echo "localized for mainland China"
-else echo "nothing to do with locale"
+    echo "Localized for mainland China."
 fi
 
 # Wireless autorun
@@ -34,7 +33,7 @@ rm -rf package/custom/sms-tool/sms-tool
 if [ `grep -c  "CONFIG_PACKAGE_kmod-tcp-bbr=y" ".config"` -ne '0' ]; then 
     echo "net.core.default_qdisc=fq" >> package/base-files/files/etc/sysctl.conf
     echo "net.ipv4.tcp_congestion_control=bbr" >> package/base-files/files/etc/sysctl.conf
-    echo "BBR activated."
+    echo "BBR activated due to the kernel module settings."
 fi
 
 # Modify default gaewayIP
@@ -43,4 +42,5 @@ sed -i 's/192.168.1/192.168.0/g' package/base-files/files/bin/config_generate
 # Switch off xray proxy by default
 if [ `grep -c  "CONFIG_PACKAGE_luci-app-xray=y" ".config"` -ne '0' ]; then 
     sed -i 's/1/0/g' package/custom/luci-app-xray/core/root/etc/config/xray_core
+    echo "Switch off xray proxy by default due to the package choice."
 fi
