@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2012-2020 Vector Di-gi <https://vectordigi.cf>
+# Copyright (c) 2012-2020 Di-gi Gen <https://vectordigi.cc>
 #
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
@@ -24,7 +24,7 @@ sed -i 's*root::0:0:99999:7:::*root:\$1\$Z5PSAHJ9$1UReP9Mm94CqDFVEnROB//:17713:0
 echo "Use 'toor' as the root password."
 
 # Add  3rd-part packages
-git clone -b packages https://github.com/JKSTAFF/match_complier.git package/custom
+git clone -b packages-21.05 https://github.com/JKSTAFF/match_complier.git package/custom
 
 # Add Fullcone-NAT option
 sed -i '/Netfilter flow offload support/i\o = s.option(form.Flag, '"'"'fullcone'"'"', _('"'"'Enable FullCone-NAT'"'"'));'  feeds/luci/applications/luci-app-firewall/htdocs/luci-static/resources/view/firewall/zones.js
