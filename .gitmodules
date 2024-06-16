@@ -7,3 +7,6 @@
 [submodule "luci-app-diskman"]
 	path = luci-app-diskman
 	url = https://github.com/lisaac/luci-app-diskman.git
+[submodule "luci-app-daed-next"]
+	path = luci-app-daed-next
+	url = https://github.com/QiuSimons/luci-app-daed-next.git

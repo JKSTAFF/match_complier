@@ -4,7 +4,7 @@ CONTRIBUTION
 
 | package | author | link |  
 | --- | --- | --- |  
-| xray | yichya | [github](https://github.com/yichya/luci-app-xray)<br/> |  
+| daed | QiuSimons | [github](https://github.com/QiuSimons/luci-app-daed-next)<br/> |  
 | sms-tool | 4IceG | [github](https://github.com/4IceG/luci-app-sms-tool)<br/> |  
 | diskman | lisaac | [lisaac](https://github.com/lisaac/luci-app-diskman)<br/> |  
 
