@@ -35,6 +35,14 @@ if [ `grep -c  "CONFIG_PACKAGE_kmod-tcp-bbr=y" ".config"` -ne '0' ]; then
     echo "BBR activated due to the kernel module settings."
 fi
 
+# Update Naxsi 
+if [ `grep -c  "CONFIG_PACKAGE_nginx-mod-naxsi=y" ".config"` -ne '0' ]; then 
+    sed -i 's/nbs-system/wargio/g' feeds/packages/net/nginx/Makefile
+    sed -i 's/d714f1636ea49a9a9f4f06dba14aee003e970834/b61ba37b3666b386c7a6d83fbcdf6ca3377395a1/g' feeds/packages/net/nginx/Makefile
+    sed -i 's/naxsi_config/naxsi_rules/g' feeds/packages/net/nginx/Makefile
+    echo "Switch to actively maintained repository of naxsi due to the package choice."
+fi
+
 # Increase UDP buffer
 echo "net.core.rmem_max=16777216" >> package/base-files/files/etc/sysctl.conf && echo "net.core.wmem_max=16777216" >> package/base-files/files/etc/sysctl.conf
 echo "Increase UDP buffer to 16M"
@@ -43,7 +51,7 @@ echo "Increase UDP buffer to 16M"
 sed -i 's/192.168.1/192.168.0/g' package/base-files/files/bin/config_generate
 
 # Switch off xray proxy by default
-if [ `grep -c  "CONFIG_PACKAGE_luci-app-xray=y" ".config"` -ne '0' ]; then 
-    sed -i 's/1/0/g' package/custom/luci-app-xray/core/root/etc/config/xray_core
-    echo "Switch off xray proxy by default due to the package choice."
-fi
+#if [ `grep -c  "CONFIG_PACKAGE_luci-app-xray=y" ".config"` -ne '0' ]; then 
+#    sed -i 's/1/0/g' package/custom/luci-app-xray/core/root/etc/config/xray_core
+#    echo "Switch off xray proxy by default due to the package choice."
+#fi
