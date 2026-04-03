@@ -21,7 +21,7 @@ on:
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt
-  REPO_BRANCH: openwrt-21.02
+  REPO_BRANCH: v25.12.2
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config_beryl
   PRE_SH: prefix.sh

@@ -26,21 +26,13 @@ sed -i 's*root:::0:99999:7:::*root:\$1\$Z5PSAHJ9$1UReP9Mm94CqDFVEnROB//:17713:0:
 echo "Use 'toor' as the root password."
 
 # Add  3rd-part packages
-git clone -b packages-24.10 https://github.com/JKSTAFF/match_complier.git package/custom --recurse-submodules
+git clone -b packages-25.12 https://github.com/JKSTAFF/match_complier.git package/custom --recurse-submodules
 
 # Add BBR TCP congestion control
 if [ `grep -c  "CONFIG_PACKAGE_kmod-tcp-bbr=y" ".config"` -ne '0' ]; then 
     echo "net.core.default_qdisc=fq" >> package/base-files/files/etc/sysctl.conf
     echo "net.ipv4.tcp_congestion_control=bbr" >> package/base-files/files/etc/sysctl.conf
     echo "BBR activated due to the kernel module settings."
-fi
-
-# Update Naxsi 
-if [ `grep -c  "CONFIG_PACKAGE_nginx-mod-naxsi=y" ".config"` -ne '0' ]; then 
-    sed -i 's/nbs-system/wargio/g' feeds/packages/net/nginx/Makefile
-    sed -i 's/d714f1636ea49a9a9f4f06dba14aee003e970834/b61ba37b3666b386c7a6d83fbcdf6ca3377395a1/g' feeds/packages/net/nginx/Makefile
-    sed -i 's/naxsi_config/naxsi_rules/g' feeds/packages/net/nginx/Makefile
-    echo "Switch to actively maintained repository of naxsi due to the package choice."
 fi
 
 # Increase UDP buffer
@@ -50,6 +42,14 @@ echo "Increase UDP buffer to 16M"
 # Modify default gaewayIP
 sed -i 's/192.168.1/192.168.0/g' package/base-files/files/bin/config_generate
 
+# Deprecated
+# Update Naxsi 
+# if [ `grep -c  "CONFIG_PACKAGE_nginx-mod-naxsi=y" ".config"` -ne '0' ]; then 
+#     sed -i 's/nbs-system/wargio/g' feeds/packages/net/nginx/Makefile
+#     sed -i 's/d714f1636ea49a9a9f4f06dba14aee003e970834/b61ba37b3666b386c7a6d83fbcdf6ca3377395a1/g' feeds/packages/net/nginx/Makefile
+#     sed -i 's/naxsi_config/naxsi_rules/g' feeds/packages/net/nginx/Makefile
+#     echo "Switch to actively maintained repository of naxsi due to the package choice."
+# fi
 # Switch off xray proxy by default
 #if [ `grep -c  "CONFIG_PACKAGE_luci-app-xray=y" ".config"` -ne '0' ]; then 
 #    sed -i 's/1/0/g' package/custom/luci-app-xray/core/root/etc/config/xray_core
