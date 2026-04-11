@@ -20,7 +20,6 @@ fi
 # Wireless autorun
 sed -i 's/0 : 1/1 : 0/g' package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
 echo "Wi-Fi will turn on, please set password promptly"
-#sed -i  '/exit 0/i\ifconfig ra0 up && brctl addif br-lan ra0\nifconfig rax0 up && brctl addif br-lan rax0' package/base-files/files/etc/rc.local
 
 # Set default password for root
 sed -i 's*root:::0:99999:7:::*root:\$1\$Z5PSAHJ9$1UReP9Mm94CqDFVEnROB//:17713:0:99999:7:::*g' package/base-files/files/etc/shadow
@@ -28,6 +27,9 @@ echo "Use 'toor' as the root password."
 
 # Add  3rd-part packages
 git clone -b packages-25.12 https://github.com/JKSTAFF/match_complier.git package/custom
+
+# Modify default gaewayIP
+sed -i 's/192.168.1/192.168.8/g' package/base-files/files/bin/config_generate
 
 # Deprecated
 # Add Fullcone-NAT option
@@ -46,6 +48,7 @@ git clone -b packages-25.12 https://github.com/JKSTAFF/match_complier.git packag
 # wget -P target/linux/mediatek/patches-5.4/ https://github.com/x-wrt/x-wrt/raw/21.10/target/linux/mediatek/patches-5.4/1101-mtk_eth_soc-get-full-tag-info-from-rxd3.patch
 # wget -P target/linux/mediatek/patches-5.4/ https://github.com/x-wrt/x-wrt/raw/21.10/target/linux/mediatek/patches-5.4/9000-dts-mt7622-bpi-r64-aliases-for-dtoverlay.patch
 # rm -rf target/linux/generic/pending-5.4/770-15-net-ethernet-mediatek-mtk_eth_soc-add-support-for-in.patch && wget -P target/linux/generic/pending-5.4/ https://github.com/x-wrt/x-wrt/raw/21.10/target/linux/generic/pending-5.4/770-15-net-ethernet-mediatek-mtk_eth_soc-add-support-for-in.patch
+#sed -i  '/exit 0/i\ifconfig ra0 up && brctl addif br-lan ra0\nifconfig rax0 up && brctl addif br-lan rax0' package/base-files/files/etc/rc.local
 # echo "Attention: Natflow is NOT compatible with USB storage kmod."
 # Enable MIPS FPU emulator
 # if grep -q 'CONFIG_TARGET_ramips=y' .config  &&  ! grep -q 'CONFIG_KERNEL_MIPS_FP_SUPPORT=y' .config ;
